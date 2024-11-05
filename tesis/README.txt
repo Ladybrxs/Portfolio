@@ -10,4 +10,4 @@ Programming Languages: R
 Visualization Tools: Power BI
 Analysis Techniques: Logistic Regression, Multiple Correspondence Analysis, Data Mining
 
-POWER BI DASHBOARD: https://app.powerbi.com/viewr=eyJrIjoiMTVkMjU4OTUtOTZmMy00NzczLWFmYzYtNjUwMTAwODAyOWY2IiwidCI6IjZjYTM0YWUxLTQ2NmYtNDRiYy1hN2FhLTBhYzVhNzhjNjFiMSIsImMiOjR9
+POWER BI DASHBOARD: https://app.powerbi.com/view?r=eyJrIjoiMTVkMjU4OTUtOTZmMy00NzczLWFmYzYtNjUwMTAwODAyOWY2IiwidCI6IjZjYTM0YWUxLTQ2NmYtNDRiYy1hN2FhLTBhYzVhNzhjNjFiMSIsImMiOjR9
