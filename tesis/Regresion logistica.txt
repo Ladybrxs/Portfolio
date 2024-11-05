@@ -1,0 +1,137 @@
+### 0. Preprocesamiento
+install.packages(c("rio", "caret", "lmtest", "ResourceSelection","blorr", "vcd"))
+library(rio)
+library(caret)
+library(dplyr)
+library(lmtest)
+library(ResourceSelection)
+library(blorr)
+library(vcd)
+
+# Importar datos
+library(readxl)
+data <- read_xlsx("C:/Users/Ryzen/Downloads/Base de datos Cancer.xlsx", sheet = 4)
+head(data)
+str(data)
+
+# Convertir variable objetivo en factor
+data$CondicionDeEgreso <- as.factor(data$CondicionDeEgreso)
+levels(data$CondicionDeEgreso)
+
+### Dividir datos en entrenamiento (70%) y prueba (30%)
+set.seed(123) # preservar reproducibilidad de eventos aleatorios
+trainIndex <- createDataPartition(data$CondicionDeEgreso, p = 0.7, list = FALSE)
+trainData <- data[trainIndex, ]
+testData <- data[-trainIndex, ]
+
+### 1. Calcular el modelo
+model = glm(CondicionDeEgreso ~ Edad + Localidad + Estrato + EPS + RegimenDeAfiliacion + Sisben + 
+             CondicionDeIngreso + PruebaDeVPH, data = trainData, family = binomial, control = glm.control(maxit = 100))
+summary(model)
+
+### 2. Omnibus
+# Ajustar el modelo nulo
+model_null <- glm(CondicionDeEgreso ~ 1, data = trainData, family = binomial)
+
+# Realizar la prueba omnibus
+anova_result <- anova(model, model_null, test = "Chisq")
+
+# Imprimir los resultados
+print(anova_result)
+
+### 3. Otras pruebas
+# Bondad de ajuste del modelo (Likelihood ratio test)
+model1 = glm(CondicionDeEgreso ~ 1, data = trainData, family = binomial)
+lrtest <- lrtest(model, model1)
+lrtest
+
+# Medidas Cox and Snell's
+cox <- 1 - exp((model$deviance - model$null.deviance) / nrow(trainData))
+cox
+
+# Medidas Nagelkerke's
+nage <- cox / (1 - (exp(-(model$null.deviance / nrow(trainData)))))
+nage
+
+####### Modelo excluyendo variables no significativas ####### 
+modelNew = glm(CondicionDeEgreso ~ Edad + Estrato + Sisben + PruebaDeVPH +
+                CondicionDeIngreso , data = trainData, family = binomial)
+summary(modelNew)
+
+### 2. Omnibus
+# Ajustar el modelo nulo
+model_null <- glm(CondicionDeEgreso ~ 1, data = trainData, family = binomial)
+
+# Realizar la prueba omnibus
+anova_result <- anova(modelNew, model_null, test = "Chisq")
+
+# Imprimir los resultados
+print(anova_result)
+
+### 3. Otras pruebas
+# Bondad de ajuste del modelo (Likelihood ratio test)
+model1 = glm(CondicionDeEgreso ~ 1, data = trainData, family = binomial)
+lrtest <- lrtest(modelNew, model1)
+lrtest
+
+# Medidas Cox and Snell's
+cox <- 1 - exp((modelNew$deviance - modelNew$null.deviance) / nrow(trainData))
+cox
+
+# Medidas Nagelkerke's
+nage <- cox / (1 - (exp(-(modelNew$null.deviance / nrow(trainData)))))
+nage
+
+### 5. Tabla de clasificación (predicción)
+probabilities <- predict(modelNew, trainData, type = "response")
+hist(probabilities)
+
+# Matriz de confusión
+predicted.classes <- ifelse(probabilities > 0.5, 1, 0)
+cm <- confusionMatrix(factor(predicted.classes), factor(trainData$CondicionDeEgreso), positive = "1")
+cm
+
+# Extraer el componente de la tabla
+cm_table <- cm$table
+mosaic(cm_table, shade = TRUE, colorize = TRUE,
+       gp = gpar(fill = matrix(c("green3", "red2", "red2", "green3"), 2, 2)))
+
+### 6. Variables en la ecuación
+odd <- cbind(B = round(coef(modelNew), 3),
+             `Exp(B)` = round(exp(modelNew$coefficients), 3),
+             round(exp(confint(modelNew)), 3))
+odd
+
+### VALIDACIÓN CON DATOS DE PRUEBA
+modelNew = glm(CondicionDeEgreso ~ Edad + Estrato + Sisben + PruebaDeVPH +
+                 CondicionDeIngreso , data = testData, family = binomial)
+summary(modelNew)
+
+# Predicciones con datos de prueba
+probabilities_test <- predict(modelNew, testData, type = "response")
+
+# Asignar predicciones al conjunto de datos de prueba
+testData$predicho <- ifelse(probabilities_test >= 0.5, 1, 0)
+
+# Matriz de confusión para datos de prueba
+predicted.classes_test <- ifelse(probabilities_test > 0.5, 1, 0)
+cm_test <- confusionMatrix(factor(predicted.classes_test), factor(testData$CondicionDeEgreso), positive = "1")
+cm_test
+
+# Extraer el componente de la tabla
+cm_test_table <- cm_test$table
+mosaic(cm_test_table, shade = TRUE, colorize = TRUE,
+       gp = gpar(fill = matrix(c("green3", "red2", "red2", "green3"), 2, 2)))
+
+### Variables en la ecuación para datos de prueba
+odd_test <- cbind(B = round(coef(testData), 3),
+                  `Exp(B)` = round(exp(testData$coefficients), 3),
+                  round(exp(confint(testData)), 3))
+odd_test
+
+# Validar las probabilidades del conjunto de datos de prueba
+probabilities_test
+
+# Clasificar en base a la probabilidad (en el conjunto de prueba)
+testData$predicho <- as.numeric(probabilities_test >= 0.5)
+

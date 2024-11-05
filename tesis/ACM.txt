@@ -1,0 +1,58 @@
+# Preprocesamiento
+install.packages("htmlwidgets", type = "binary")
+install.packages("DT", type = "binary")
+install.packages(c("FactoMineR", "factoextra", "tidyverse", "naniar", "corrplot"))
+install.packages("easypackages")
+install.packages("readxl")
+
+library(easypackages)
+paquetes <- c("FactoMineR", "tidyverse", "factoextra", "haven", "naniar", "corrplot")
+libraries(paquetes)
+          
+# Importar datos
+library(readxl)
+data <- read_xlsx("C:/Users/Ryzen/Downloads/Base de datos Cancer.xlsx", sheet = 1)
+
+# Seleccionar variables categóricas de interés
+variables_categoricas <- c('Edad', 'Localidad', 'Estrato', 'EPS', 'Regimen de afiliación', 
+                          'Sisben', 'Tipo de cáncer', 'Grado de cáncer', 'Condición de ingreso', 'Prueba de VPH')
+print(data)
+print(variables_categoricas)
+
+# Convertir variables a factores
+data[, variables_categoricas] <- lapply(data[, variables_categoricas], as.factor)
+
+### 1. ACM
+mca_model <- MCA(data[, variables_categoricas], graph = FALSE)
+summary(mca_model)
+
+# Descripción de dimensiones
+res.desc <- dimdesc(mca_model, #objeto tipo lista que contiene los resultados ACM
+                    axes = c(1,2) #definición de los ejes o dimensiones a describir
+)
+res.desc[[1]]
+res.desc[[2]]
+
+# Gráfico de puntos (scatter plot) individual
+fviz_mca_ind(mca_model, col.ind = "cos2", habillage = "Edad", addEllipses = TRUE)
+fviz_mca_ind(mca_model, col.ind = "cos2", habillage = "Localidad", addEllipses = TRUE)
+fviz_mca_ind(mca_model, col.ind = "cos2", habillage = "Estrato", addEllipses = TRUE)
+fviz_mca_ind(mca_model, col.ind = "cos2", habillage = "EPS", addEllipses = TRUE)
+fviz_mca_ind(mca_model, col.ind = "cos2", habillage = "Regimen de afiliación", addEllipses = TRUE)
+fviz_mca_ind(mca_model, col.ind = "cos2", habillage = "Sisben", addEllipses = TRUE)
+fviz_mca_ind(mca_model, col.ind = "cos2", habillage = "Tipo de cáncer", addEllipses = TRUE)
+fviz_mca_ind(mca_model, col.ind = "cos2", habillage = "Grado de cáncer", addEllipses = TRUE)
+fviz_mca_ind(mca_model, col.ind = "cos2", habillage = "Condición de ingreso", addEllipses = TRUE)
+fviz_mca_ind(mca_model, col.ind = "cos2", habillage = "Prueba de VPH", addEllipses = TRUE)
+
+# Correlación entre variables con respecto a las dimensiones o factores
+fviz_mca_var(mca_model, # objeto lista de resultados acm
+             choice = "mca.cor", # tipo de análisis solicitado: correlaciones
+             repel = TRUE, # evitar la superposición de etiquetas
+             ggtheme = theme_minimal()
+)
+
+#correlación entre variables
+correlacion <- cor(data)
+print(correlacion)
+

@@ -1,0 +1,181 @@
+body {
+    background-color: rgba(12, 12, 12, 0.892);
+}
+
+.Home {
+    display: flex;                  
+    align-items: center;    
+    flex-direction: column;      
+    justify-content: center;       
+    height: 100vh;                 
+    text-align: center; 
+}
+
+h1 {
+    color: white;
+    font-family: 'Source Sans Pro';
+    font-size: 106px;
+    margin-bottom: 10px;
+}
+
+p {
+    font-family: 'Merriweather', 'Georgia', 'Serif';
+    font-style: italic;
+    font-size: 26px;
+    color: white;
+}
+
+img {
+    
+    width: 100px;
+    transition: transform 0.3s ease; 
+}
+
+img:hover {
+    transform: scale(1.1); 
+}
+
+/* Estilo del nav */
+#nav {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    background-color: rgba(12, 12, 12, 0.892); 
+    padding: 0px; 
+    width: 90%;
+    margin:  0 auto;
+}
+/* Estilo de la lista de navegación */
+.navigation {
+    list-style-type: none; 
+    display: flex; 
+    width: 100%; 
+    padding: 0;
+    margin-right: 20px;
+}
+
+.navigation li:first-child {
+    margin-right: auto; 
+}
+
+/* Estilo para los enlaces */
+.navigation a {
+    text-decoration: none; 
+    font-weight: bold; 
+    line-height: 50px; 
+}
+.project-link {
+    background-color: white;
+    color: black;
+    padding: 32px; 
+    padding-bottom: 40px;
+}
+.body-project {
+    font-family: 'Merriweather', 'Georgia', 'Serif';
+    font-style: italic;
+    color: black;
+    line-height: 2.0;
+}
+/* Estilo para los íconos */
+.icons {
+    display: flex; 
+    gap: 40px; 
+}
+
+.icons img {
+    width: 30px; 
+    height: auto; 
+}
+.container{
+background-color: white;
+width: 90%;
+display: flex;                  
+align-items: center;    
+flex-direction: column;      
+justify-content: center; 
+margin: 20px auto;
+ }
+.name-proyect{
+    color: black;
+    font-size: 80px;
+}
+.tesis{
+    width: 70%; 
+}
+.boton-tesis{
+    border: 2px solid black;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    margin-top: 60px;
+    width: 160px;
+    height: 60px;
+    margin-bottom: 20px;
+    text-align: center;
+    line-height: 60px;
+    text-decoration: none;
+    text-size-adjust: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    
+}
+.boton-tesis:hover {
+    background-color:  rgba(12, 12, 12, 0.892);
+    color: white; 
+}
+
+.name-project{
+    color: black;
+    font-size: 40px;
+    
+}
+p.bod-project{
+    color: black;
+    font-size: 16px;
+}
+.containercolumn {
+    display: flex; 
+    align-items: flex-start; 
+    flex-wrap: wrap; 
+    margin: 0px;
+    justify-content: center; 
+}
+
+.proyecto2, .proyecto3, .proyecto4, .proyecto5 {
+    flex: 0 0 calc(50% - 100px); 
+    margin-bottom: 20px;
+    justify-content: center; 
+    text-align:  center; 
+    width: 100%;
+}
+img.img1{
+    width: 90%;
+    margin-bottom: 30px;
+}
+footer{
+    color: white;
+    margin-top: 20px;
+   text-align: center;
+}
+
+
+/* Media Queries para ajustar estilos en pantallas más pequeñas */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 6vw; 
+    }
+
+    p {
+        font-size: 5vw; 
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 5vw; 
+    }
+
+    p {
+        font-size: 4vw; 
+    }
+}
