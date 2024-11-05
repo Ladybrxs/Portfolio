@@ -88,7 +88,7 @@ img:hover {
 }
 .container{
 background-color: white;
-width: 80%;
+width: 90%;
 display: flex;                  
 align-items: center;    
 flex-direction: column;      
@@ -98,6 +98,7 @@ margin: 20px auto;
 .name-proyect{
     color: black;
     font-size: 50px;
+    margin: 20px;
 }
 .tesis{
     width: 70%; 
@@ -158,3 +159,24 @@ footer{
    text-align: center;
 }
 
+
+/* Media Queries para ajustar estilos en pantallas más pequeñas */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 6vw; 
+    }
+
+    p {
+        font-size: 5vw; 
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 15vw; 
+    }
+
+    p {
+        font-size: 8vw; 
+    }
+}
