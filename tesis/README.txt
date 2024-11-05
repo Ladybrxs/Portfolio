@@ -4,8 +4,10 @@ Contents
 R Code: Implementation of the logistic regression model and multiple correspondence analysis.
 Data Mining Visualizations: Images and graphs generated during data analysis.
 Dashboard in Power BI: Interactive visualization of the EDA presenting key findings and patterns in the data.
+
 Technologies Used
 Programming Languages: R
 Visualization Tools: Power BI
 Analysis Techniques: Logistic Regression, Multiple Correspondence Analysis, Data Mining
 
+POWER BI DASHBOARD: https://app.powerbi.com/viewr=eyJrIjoiMTVkMjU4OTUtOTZmMy00NzczLWFmYzYtNjUwMTAwODAyOWY2IiwidCI6IjZjYTM0YWUxLTQ2NmYtNDRiYy1hN2FhLTBhYzVhNzhjNjFiMSIsImMiOjR9
